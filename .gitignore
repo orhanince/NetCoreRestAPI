@@ -1,0 +1,61 @@
+# .NET Core
+bin/
+obj/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+
+# Visual Studio Code
+.vscode/
+
+# Visual Studio
+.vs/
+*.sln.ide
+
+# Rider
+.idea/
+
+# User-specific files
+*.user
+*.suo
+*.userprefs
+
+# NPM packages
+node_modules/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+**/packages/*
+**/obj/Debug/net*/NuGetFallbackFolder/*
+
+# Logs
+*.log
+
+# Build output
+*.dll
+*.exe
+*.pdb
+*.mdb
+*.dSYM/
+
+# Test Results
+TestResults/
+
+# DotNet Core Global Tools
+.dotnet/
+
+# Secrets
+secrets.json
+
+# Others
+*.cache
+*.db
+*.db-journal
+*.tlog
