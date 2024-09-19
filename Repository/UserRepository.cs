@@ -1,19 +1,22 @@
 
+using NetCoreRestAPI.Data;
 using NetCoreRestAPI.Models;
+using NetCoreRestAPI.Services;
 
 namespace NetCoreRestAPI.Repository
 {
     public class UserRepository : IUserRepository
 {
-    public Task<User> CreateUser(string username, string password)
+    private readonly MyAppContext _context;
+    public UserRepository(MyAppContext context)
     {
-        var user = new User {
-            Id = 1,
-            Username = "Alex",
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(password)
-        };
-        
-        return Task.FromResult(user);
+        _context = context;
+    }
+    public async Task<User> CreateUser(User user)
+    {
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+        return await Task.FromResult(user);
     }
 
     Task<User> IUserRepository.GetUser(string email)
