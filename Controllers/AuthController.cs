@@ -15,7 +15,17 @@ namespace NetCoreRestAPI.Controllers
         {
             _iAuthService = iAuthService;
         }
+
+        /// <summary>
+        /// Registers a new user.
+        /// </summary>
+        /// <param name="username">The username for the new user.</body>
+        /// <param name="email">The email for the new user.</param>
+        /// <param name="password">The password for the new user.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [HttpPost("register")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         public async Task<ActionResult<AuthResponseDto>> Register(RegisterDto registerDto)
         {
             var authResponseDto = await _iAuthService.Register(registerDto);
@@ -23,3 +33,4 @@ namespace NetCoreRestAPI.Controllers
         }
     }
 }
+

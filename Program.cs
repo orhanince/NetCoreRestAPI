@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NetCoreRestAPI.Repository;
 using NetCoreRestAPI.Services;
 using System.Text;
 
@@ -10,12 +12,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<NetCoreRestAPI.Data.MyAppContext>(options =>
+    options.UseSqlServer("Server=127.0.0.1,1433;Database=NetCoreRestApi;User Id=SA;Password=YourPassword123; Encrypt=True; TrustServerCertificate=True"));
+    //jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;
+
 builder.Services.AddControllers(); 
 // Register services
 builder.Services.AddScoped<IAuthService, AuthService>(); 
 builder.Services.AddScoped<IUserService, UserService>(); 
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IEncryptService, EncryptService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = jwtSettings.GetSection("Key")?.Value;
 builder.Services.AddAuthentication(options =>
