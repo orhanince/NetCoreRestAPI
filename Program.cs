@@ -15,6 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IAuthService, AuthService>(); 
 builder.Services.AddScoped<IUserService, UserService>(); 
 builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IEncryptService, EncryptService>();
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = jwtSettings.GetSection("Key")?.Value;
 builder.Services.AddAuthentication(options =>
