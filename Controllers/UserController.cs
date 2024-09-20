@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreRestAPI.Dtos;
@@ -24,6 +25,7 @@ namespace NetCoreRestAPI.Controllers
         /// <param name="email">The email for the new user.</param>
         /// <param name="password">The password for the new user.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
+        
         [HttpGet()]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
