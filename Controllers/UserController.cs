@@ -32,6 +32,16 @@ namespace NetCoreRestAPI.Controllers
             return await _iUserService.GetUsersAsync();
         }
 
+        [HttpGet("{userID}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<UserDto>> GetUserById(int userID)
+        {
+
+            return await _iUserService.GetUserByIdAsync(userID);
+        }
+
+
         [HttpPut("{userID}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]

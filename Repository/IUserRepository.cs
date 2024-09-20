@@ -7,7 +7,7 @@ namespace NetCoreRestAPI.Repository
         Task <List<UserDto>> GetUsersAsync();
         Task<User> CreateUserAsync(User user);
         Task<User> GetUserByEmailAsync(string email);
-        Task<User> GetUserByID(int userID);
+        Task<UserDto> GetUserByIDAsync(int userID);
         Task<User> UpdateUserAsync(int userID, string username);
         Task<bool> DeleteUserAsync(int userID);
     } 
