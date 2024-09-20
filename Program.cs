@@ -18,6 +18,7 @@ builder.Services.AddDbContext<NetCoreRestAPI.Data.MyAppContext>(options =>
     options.UseSqlServer("Server=127.0.0.1,1433;Database=NetCoreRestApi;User Id=SA;Password=YourPassword123; Encrypt=True; TrustServerCertificate=True"));
     //jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;
 
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 builder.Services.AddControllers(); 
 // Register services
 builder.Services.AddScoped<IAuthService, AuthService>(); 

@@ -27,7 +27,7 @@ namespace NetCoreRestAPI.Controllers
         [HttpGet()]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<List<User>>> GetUsers()
+        public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
             return await _iUserService.GetUsersAsync();
         }
@@ -39,6 +39,15 @@ namespace NetCoreRestAPI.Controllers
         {
 
             return await _iUserService.UpdateUserAsync(userID, updateUserDto);
+        }
+
+        [HttpDelete("{userID}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<bool>> DeleteUser(int userID)
+        {
+
+            return await _iUserService.DeleteUserAsync(userID);
         }
     }
 }
