@@ -33,7 +33,7 @@ namespace NetCoreRestAPI.Controllers
 
 
         /// <summary>
-        /// Registers a new user.
+        /// Login user.
         /// </summary>
         /// <param name="username">The username for the new user.</body>
         /// <param name="email">The email for the new user.</param>

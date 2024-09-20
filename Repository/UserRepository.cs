@@ -14,6 +14,11 @@ namespace NetCoreRestAPI.Repository
     {
         _context = context;
     }
+
+    public async Task<List<User>> GetUsersAsync()
+    {
+        return await _context.Users.ToListAsync();
+    }
     public async Task<User> CreateUserAsync(User user)
     {
         _context.Users.Add(user);
@@ -39,14 +44,25 @@ namespace NetCoreRestAPI.Repository
         
     }
 
-    Task<User> IUserRepository.GetUserByID(int userID)
+    async Task<User> IUserRepository.GetUserByID(int userID)
     {
         throw new NotImplementedException();
     }
 
-    Task<User> IUserRepository.UpdateUser()
+    async Task<User> IUserRepository.UpdateUserAsync(int userID, string username)
     {
-        throw new NotImplementedException();
+        
+        var user = await _context.Users.FindAsync(userID);
+        if (user == null)
+        {
+           throw new ArgumentNullException(nameof(user));
+        }
+            
+        user.Username = username;
+
+        _context.Users.Update(user);
+       await _context.SaveChangesAsync();
+       return user;
     }
     }   
 }
