@@ -5,7 +5,7 @@ namespace NetCoreRestAPI.Services
 {
     public interface IUserService
     {
-        Task<User> CreateUser(RegisterDto registerDto);
-        Task<User> GetUser(string email);
+        Task<User> CreateUserAsync(RegisterDto registerDto);
+        Task<User> GetUserByEmailAsync(string email);
     }
 }

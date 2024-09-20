@@ -28,8 +28,23 @@ namespace NetCoreRestAPI.Controllers
         [ProducesResponseType(400)]
         public async Task<ActionResult<AuthResponseDto>> Register(RegisterDto registerDto)
         {
-            var authResponseDto = await _iAuthService.Register(registerDto);
-            return authResponseDto;
+            return await _iAuthService.Register(registerDto);
+        }
+
+
+        /// <summary>
+        /// Registers a new user.
+        /// </summary>
+        /// <param name="username">The username for the new user.</body>
+        /// <param name="email">The email for the new user.</param>
+        /// <param name="password">The password for the new user.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        [HttpPost("login")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<AuthResponseDto>> Login(LoginDto loginDto)
+        {
+            return await _iAuthService.Login(loginDto);
         }
     }
 }

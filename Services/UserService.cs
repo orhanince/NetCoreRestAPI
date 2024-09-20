@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using NetCoreRestAPI.Dtos;
 using NetCoreRestAPI.Models;
 using NetCoreRestAPI.Repository;
@@ -14,7 +15,7 @@ namespace NetCoreRestAPI.Services
             _iEncryptService = iEncryptService;
         }
 
-        public async Task<User> CreateUser(RegisterDto registerDto)
+        public async Task<User> CreateUserAsync(RegisterDto registerDto)
         {
             // TODO
             // Add user to db.
@@ -24,14 +25,18 @@ namespace NetCoreRestAPI.Services
                 Password = await _iEncryptService.HashPasswordAsync(registerDto.password),
                 Active = true
             };
-            await _iUserRepository.CreateUser(user);
+            await _iUserRepository.CreateUserAsync(user);
             return user;
         }
 
-        public async Task<User> GetUser(string email)
+        public async Task<User> GetUserByEmailAsync(string email)
         {
-            await Task.CompletedTask;
-            throw new NotImplementedException();
+            var user = await _iUserRepository.GetUserByEmailAsync(email);
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+           return user; 
         }
     }
 }
