@@ -15,6 +15,11 @@ namespace NetCoreRestAPI.Services
             _iEncryptService = iEncryptService;
         }
 
+        public async Task<List<User>> GetUsersAsync()
+        {
+            return await _iUserRepository.GetUsersAsync();
+        }
+
         public async Task<User> CreateUserAsync(RegisterDto registerDto)
         {
             // TODO
@@ -37,6 +42,11 @@ namespace NetCoreRestAPI.Services
                 throw new ArgumentNullException(nameof(user));
             }
            return user; 
+        }
+
+        public async Task<User> UpdateUserAsync(int userID, UpdateUserDto updateUserDto)
+        {
+            return await _iUserRepository.UpdateUserAsync(userID, updateUserDto.username);
         }
     }
 }

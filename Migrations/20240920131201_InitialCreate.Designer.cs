@@ -12,7 +12,7 @@ using NetCoreRestAPI.Data;
 namespace NetCoreRestAPI.Migrations
 {
     [DbContext(typeof(MyAppContext))]
-    [Migration("20240919211339_InitialCreate")]
+    [Migration("20240920131201_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -39,7 +39,7 @@ namespace NetCoreRestAPI.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DeletedAt")
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")

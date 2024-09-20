@@ -31,17 +31,24 @@ namespace NetCoreRestAPI.Services
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettingsKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken(
+            var accessToken = new JwtSecurityToken(
                 issuer: _iConfiguration["Jwt:Issuer"],
                 audience: _iConfiguration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddMinutes(60),
+                signingCredentials: creds);
+
+            var refreshToken = new JwtSecurityToken(
+                issuer: _iConfiguration["Jwt:Issuer"],
+                audience: _iConfiguration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(180),
                 signingCredentials: creds);
             return new JwtResponseDto {
-                AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
-                ExpiresIn = 1000,
-                RefreshToken = new JwtSecurityTokenHandler().WriteToken(token),
-                RefreshTokenExpiresIn = 1000
+                AccessToken = new JwtSecurityTokenHandler().WriteToken(accessToken),
+                ExpiresIn = 60 * 1000,
+                RefreshToken = new JwtSecurityTokenHandler().WriteToken(refreshToken),
+                RefreshTokenExpiresIn = 180 * 1000
             };
         }
 
