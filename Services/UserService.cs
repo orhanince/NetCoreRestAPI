@@ -15,7 +15,7 @@ namespace NetCoreRestAPI.Services
             _iEncryptService = iEncryptService;
         }
 
-        public async Task<List<User>> GetUsersAsync()
+        public async Task<List<UserDto>> GetUsersAsync()
         {
             return await _iUserRepository.GetUsersAsync();
         }
@@ -47,6 +47,11 @@ namespace NetCoreRestAPI.Services
         public async Task<User> UpdateUserAsync(int userID, UpdateUserDto updateUserDto)
         {
             return await _iUserRepository.UpdateUserAsync(userID, updateUserDto.username);
+        }
+
+        public async Task<bool> DeleteUserAsync(int userID)
+        {
+            return await _iUserRepository.DeleteUserAsync(userID);
         }
     }
 }
