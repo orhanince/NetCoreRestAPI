@@ -10,5 +10,6 @@ namespace NetCoreRestAPI.Services
         Task<User> GetUserByEmailAsync(string email);
         Task<User> UpdateUserAsync(int userID, UpdateUserDto updateUserDto);
         Task<bool> DeleteUserAsync(int userID);
+        Task<UserDto> GetUserByIdAsync(int userID);
     }
 }

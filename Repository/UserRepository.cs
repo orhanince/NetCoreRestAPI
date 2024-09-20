@@ -48,9 +48,10 @@ namespace NetCoreRestAPI.Repository
         
     }
 
-    async Task<User> IUserRepository.GetUserByID(int userID)
+    public async Task<UserDto> GetUserByIDAsync(int userID)
     {
-        throw new NotImplementedException();
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userID); 
+        return _iMapper.Map<UserDto>(user);
     }
 
     public async Task<User> UpdateUserAsync(int userID, string username)

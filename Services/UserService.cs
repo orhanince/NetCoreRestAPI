@@ -22,8 +22,6 @@ namespace NetCoreRestAPI.Services
 
         public async Task<User> CreateUserAsync(RegisterDto registerDto)
         {
-            // TODO
-            // Add user to db.
             var user = new User { 
                 Username = registerDto.username,
                 Email = registerDto.email,
@@ -52,6 +50,11 @@ namespace NetCoreRestAPI.Services
         public async Task<bool> DeleteUserAsync(int userID)
         {
             return await _iUserRepository.DeleteUserAsync(userID);
+        }
+
+        public async Task<UserDto> GetUserByIdAsync(int userID)
+        {
+            return await _iUserRepository.GetUserByIDAsync(userID);
         }
     }
 }

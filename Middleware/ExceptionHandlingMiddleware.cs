@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text.Json;
 
-namespace YourNamespace.Middleware
+namespace NetCoreRestAPI.Middleware
 {
     public class ExceptionHandlingMiddleware
     {
