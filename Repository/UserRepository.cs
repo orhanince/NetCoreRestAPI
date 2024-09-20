@@ -1,4 +1,6 @@
 
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using NetCoreRestAPI.Data;
 using NetCoreRestAPI.Models;
 using NetCoreRestAPI.Services;
@@ -12,16 +14,29 @@ namespace NetCoreRestAPI.Repository
     {
         _context = context;
     }
-    public async Task<User> CreateUser(User user)
+    public async Task<User> CreateUserAsync(User user)
     {
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
         return await Task.FromResult(user);
     }
 
-    Task<User> IUserRepository.GetUser(string email)
+    public async Task<User> GetUserByEmailAsync(string email)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);  
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            return user;
+        }
+        catch (System.Exception)
+        {      
+            throw;
+        }
+        
     }
 
     Task<User> IUserRepository.GetUserByID(int userID)

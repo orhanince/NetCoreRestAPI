@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NetCoreRestAPI.Middleware;
 using NetCoreRestAPI.Repository;
 using NetCoreRestAPI.Services;
 using System.Text;
@@ -54,6 +56,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 //app.UseAuthorization();
+app.UseMiddleware<GlobalResponseMiddleware>();
+//app.UseExceptionHandler(options => {ExceptionHandlerMiddleware})
 app.MapControllers();
 
 app.MapGet("/", () =>
