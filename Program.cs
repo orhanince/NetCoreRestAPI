@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NetCoreRestAPI.Data;
 using NetCoreRestAPI.Middleware;
 using NetCoreRestAPI.Repository;
 using NetCoreRestAPI.Services;
@@ -15,11 +16,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<NetCoreRestAPI.Data.MyAppContext>(options =>
-    options.UseSqlServer("Server=127.0.0.1,1433;Database=NetCoreRestApi;User Id=SA;Password=YourPassword123; Encrypt=True; TrustServerCertificate=True"));
+    options.UseSqlServer("Server=.\\SQLExpress2014;Database=NetCoreRestApi;Trusted_Connection=False;User ID=sa;Password=lila-123;Encrypt=False;MultipleActiveResultSets=true;"));
     //jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;
 
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
-builder.Services.AddControllers(); 
+builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); 
 // Register services
 builder.Services.AddScoped<IAuthService, AuthService>(); 
 builder.Services.AddScoped<IUserService, UserService>(); 
@@ -37,6 +38,7 @@ builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
 builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
+
 // Register JWT 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = jwtSettings.GetSection("Key")?.Value;
@@ -92,6 +94,18 @@ app.MapGet("/", () =>
 .WithName("GetWeatherForecast")
 .WithOpenApi();
 
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    MyAppContext context = scope.ServiceProvider.GetService<MyAppContext>();
+    try
+    {
+        context.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        throw ex;
+    }
+}
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

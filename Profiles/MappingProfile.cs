@@ -14,7 +14,7 @@ public class MappingProfile : Profile
         CreateMap<PublisherDto, Publisher>();
         CreateMap<Author, AuthorDto>();
         CreateMap<AuthorDto, Author>();
-        CreateMap<Book, BookDto>();
+        CreateMap<Book, BookDto>().ForMember(x => x.BookAuthors, opt => opt.Ignore());
         CreateMap<BookDto, Book>();
     }
 }
