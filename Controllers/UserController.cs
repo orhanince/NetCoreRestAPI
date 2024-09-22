@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreRestAPI.Dtos;
 using NetCoreRestAPI.Models;
 using NetCoreRestAPI.Services;
 
 namespace NetCoreRestAPI.Controllers
-{
+{   
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
@@ -25,7 +25,6 @@ namespace NetCoreRestAPI.Controllers
         /// <param name="email">The email for the new user.</param>
         /// <param name="password">The password for the new user.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        
         [HttpGet()]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]

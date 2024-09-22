@@ -25,7 +25,12 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>(); 
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IEncryptService, EncryptService>();
+builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+// Register Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+
+// Register JWT 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = jwtSettings.GetSection("Key")?.Value;
 builder.Services.AddAuthentication(options =>

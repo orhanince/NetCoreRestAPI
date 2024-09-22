@@ -10,6 +10,15 @@ namespace NetCoreRestAPI.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.UserProfile)
+                .WithOne(p => p.User)
+                .HasForeignKey<UserProfile>(p => p.UserId);
+        }
+
         public DbSet<User> Users { get; set; } // Users table
+         public DbSet<UserProfile> UserProfiles { get; set; } // UserProfile table
     }
 }
