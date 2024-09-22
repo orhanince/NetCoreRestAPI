@@ -7,5 +7,6 @@ namespace NetCoreRestAPI.Services
     {
         Task<List<AuthorDto>> GetAuthorsAsync();
         Task<AuthorDto> AddAuthorAsync(AddAuthorDto addAuthorDto);
+        Task<AuthorDto> GetAuthorAsync(int authorID);
     }
 }

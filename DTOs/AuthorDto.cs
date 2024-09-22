@@ -8,6 +8,7 @@ namespace NetCoreRestAPI.Models
         required
         public string Surname { get; set; }
         public bool Active { get; set; } 
+        public Book? Books { get; set; }
     }
 }
 

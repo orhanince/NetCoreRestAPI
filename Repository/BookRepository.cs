@@ -12,22 +12,22 @@ using NetCoreRestAPI.Services;
 
 namespace NetCoreRestAPI.Repository
 {
-    public class AuthorRepository : IAuthorRepository
+    public class BookRepository : IBookRepository
 {
     private readonly MyAppContext _context;
     private readonly IMapper _iMapper;
-    public AuthorRepository(MyAppContext context, IMapper iMapper)
+    public BookRepository(MyAppContext context, IMapper iMapper)
     {
         _context = context;
         _iMapper = iMapper;
     }
-    public async Task<List<AuthorDto>> GetAuthorsAsync()
+    public async Task<List<BookDto>> GetBooksAsync()
     {
-        var authors = await _context.Authors.ToListAsync();
-        return  _iMapper.Map<List<AuthorDto>>(authors);
+        var books = await _context.Books.ToListAsync();
+        return  _iMapper.Map<List<BookDto>>(books);
     }
 
-    public async Task<AuthorDto> AddAuthorAsync(string name, string surname)
+    public async Task<BookDto> AddBookAsync(string title, int? authorID)
     {
         /**var existAuthor = await _context.Authors.FirstOrDefaultAsync(u => u.Name == SlugHelper.GenerateSlug(name));  
         if (existAuthor != null)
@@ -35,20 +35,20 @@ namespace NetCoreRestAPI.Repository
             throw new ArgumentNullException(nameof(existAuthor));
         }*/
         
-        var author = new Author {
-            Name = name,
-            Surname = surname,
+        var book = new Book {
+            Title = title,
             Active = true
         };
-        _context.Authors.Add(author);
+        _context.Books.Add(book);
         await _context.SaveChangesAsync();
-        return _iMapper.Map<AuthorDto>(author);
+        return _iMapper.Map<BookDto>(book);
     }
 
-        public async Task<AuthorDto> GetAuthorAsync(int authorID)
-        {
-            var authorWithBooks = await Task.Run(() => _context.Authors.Include(a => a.BookAuthors).ThenInclude(ba => ba.Book).FirstOrDefault(a => a.Id == authorID));
-            return _iMapper.Map<AuthorDto>(authorWithBooks);
-        }
+    public async Task<BookDto> GetBookAsync(int bookID)
+    {
+        var bookWithAuthors = await Task.Run(() => _context.Books.Where(x=> x.Id == bookID).Include(a => a.BookAuthors).ThenInclude(ba => ba.Author).FirstOrDefault());
+        var aa =  _iMapper.Map<BookDto>(bookWithAuthors);
+        return aa;
+    }
     }   
 }

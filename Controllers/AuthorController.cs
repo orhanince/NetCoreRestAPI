@@ -38,6 +38,17 @@ namespace NetCoreRestAPI.Controllers
         {
             return await _iAuthorService.AddAuthorAsync(addAuthorDto);
         }
+
+        /// <summary>
+        /// Get author.
+        /// </summary>
+        [HttpGet("{authorID}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<AuthorDto>> GetAuthor(int authorID)
+        {
+            return await _iAuthorService.GetAuthorAsync(authorID);
+        }
     }
 }
 
