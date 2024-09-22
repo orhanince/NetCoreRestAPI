@@ -19,6 +19,9 @@ namespace NetCoreRestAPI.Data
         }
 
         public DbSet<User> Users { get; set; } // Users table
-         public DbSet<UserProfile> UserProfiles { get; set; } // UserProfile table
+        public DbSet<UserProfile> UserProfiles { get; set; } // UserProfile table
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Language> Languages { get; set; }
+        public DbSet<Publisher> Publishers { get; set; }
     }
 }

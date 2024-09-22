@@ -26,9 +26,11 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IEncryptService, EncryptService>();
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+builder.Services.AddScoped<ILanguageService, LanguageService>();
 // Register Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
 
 // Register JWT 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
@@ -63,10 +65,12 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication(); 
 app.UseAuthorization();
+/**
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<CustomForbiddenMiddleware>();
 app.UseMiddleware<CustomUnauthorizedMiddleware>();
 app.UseMiddleware<GlobalResponseMiddleware>();
+*/
 //app.UseExceptionHandler(options => {ExceptionHandlerMiddleware})
 app.MapControllers();
 
