@@ -6,6 +6,7 @@ namespace NetCoreRestAPI.Models
         required
         public string Name { get; set; }
         public string? Logo { get; set; }
+        public string? About { get; set; }
         public ICollection<Book>? Books { get; set; } // Navigation property
         public bool Active { get; set; } 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

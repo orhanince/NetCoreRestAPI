@@ -9,6 +9,7 @@ namespace NetCoreRestAPI.Models
         public int? PublisherId { get; set; }
         public Language? Language { get; set; } // Navigation property
         public Publisher? Publisher { get; set; } // Navigation property
+        public int? PublishedYear { get; set; }
         public bool Active { get; set; } 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;

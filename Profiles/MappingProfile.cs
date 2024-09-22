@@ -10,5 +10,7 @@ public class MappingProfile : Profile
         CreateMap<UserDto, User>();
         CreateMap<Language, LanguageDto>();
         CreateMap<LanguageDto, Language>();
+        CreateMap<Publisher, PublisherDto>();
+        CreateMap<PublisherDto, Publisher>();
     }
 }
