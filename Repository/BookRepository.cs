@@ -69,5 +69,43 @@ namespace NetCoreRestAPI.Repository
         await _context.SaveChangesAsync();
         return _iMapper.Map<BookDto>(book);
     }
-}   
+
+    public async Task<UserDto> AddBookToUserAsync(int userID, int bookID)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userID);
+        if (user == null)
+        {
+            throw new ArgumentNullException(nameof(user));
+        }
+        var book = await _context.Books.FirstOrDefaultAsync(u => u.Id == bookID);
+        if (book == null)
+        {
+            throw new ArgumentNullException(nameof(book));
+        }
+        var userBook = new UserBook
+        {
+            User = user,
+            Book = book
+        };
+        _context.UserBooks.Add(userBook);
+        await _context.SaveChangesAsync();
+        return _iMapper.Map<UserDto>(user);
+    }
+
+    public async Task<List<BookDto>> GetUserBooksAsync(int userID)
+    {
+        var userBooks = await Task.Run(() => _context.UserBooks.Where(x=> x.UserId == userID)
+        .Include(b => b.Book)
+        .ThenInclude(l => l.Language)
+        .Include(b => b.Book)
+        .ThenInclude(p => p.Publisher)
+        .Include(b => b.Book)
+        .ThenInclude(a => a.BookAuthors!)
+        .ThenInclude(ba => ba.Author)
+        .ToList());
+
+        var books = userBooks.Select(x => x.Book).ToList();
+        return  _iMapper.Map<List<BookDto>>(books);
+    }
+  }  
 }

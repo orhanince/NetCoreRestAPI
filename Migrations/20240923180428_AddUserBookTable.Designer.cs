@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetCoreRestAPI.Data;
 
@@ -11,9 +12,11 @@ using NetCoreRestAPI.Data;
 namespace NetCoreRestAPI.Migrations
 {
     [DbContext(typeof(MyAppContext))]
-    partial class MyAppContextModelSnapshot : ModelSnapshot
+    [Migration("20240923180428_AddUserBookTable")]
+    partial class AddUserBookTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,17 +81,14 @@ namespace NetCoreRestAPI.Migrations
                     b.Property<string>("ISBN")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("LanguageId")
                         .HasColumnType("int");
 
                     b.Property<int?>("NumberOfPages")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("PublishedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int?>("PublishedYear")
+                        .HasColumnType("int");
 
                     b.Property<int?>("PublisherId")
                         .HasColumnType("int");

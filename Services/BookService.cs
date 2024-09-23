@@ -32,5 +32,15 @@ namespace NetCoreRestAPI.Services
         {
             return _iBookRepository.UpdateBookAsync(bookID, updateBookDto.title, updateBookDto.authorID);
         }
+
+        public Task<UserDto> AddBookToUserAsync(int userID, int bookID)
+        {
+            return _iBookRepository.AddBookToUserAsync(userID, bookID);
+        }
+
+        public Task<List<BookDto>> GetUserBooksAsync(int userID)
+        {
+            return _iBookRepository.GetUserBooksAsync(userID);
+        }
     }
 }

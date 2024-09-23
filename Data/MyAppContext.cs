@@ -17,6 +17,7 @@ namespace NetCoreRestAPI.Data
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<BookAuthor> BookAuthors { get; set; }
+        public DbSet<UserBook> UserBooks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

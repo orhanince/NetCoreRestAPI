@@ -10,6 +10,7 @@ namespace NetCoreRestAPI.Models
         required
         public string Password { get; set; } 
         public UserProfile? UserProfile { get; set; }
+        public ICollection<UserBook>? UserBooks { get; set; }
         public bool Active { get; set; } 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;

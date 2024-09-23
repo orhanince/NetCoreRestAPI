@@ -70,6 +70,22 @@ namespace NetCoreRestAPI.Controllers
         {
             return await _iBookService.UpdateBookAsync(bookID, updateBookDto);
         }
+
+        [HttpPost("{userID}/{bookID}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<UserDto>> AddBookToUser(int userID, int bookID)
+        {
+            return await _iBookService.AddBookToUserAsync(userID, bookID);
+        }
+
+        [HttpGet("user/{userID}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<List<BookDto>>> GetUserBooks(int userID)
+        {
+            return await _iBookService.GetUserBooksAsync(userID);
+        }
     }
 }
 
