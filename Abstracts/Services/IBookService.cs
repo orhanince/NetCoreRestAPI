@@ -8,5 +8,6 @@ namespace NetCoreRestAPI.Services
         Task <List<BookDto>> GetBooksAsync();
         Task <BookDto> AddBookAsync(AddBookDto addBookDto);
         Task <BookDto> GetBookAsync(int bookID);
+        Task <BookDto> UpdateBookAsync(int bookID, UpdateBookDto updateBookDto);
     }
 }

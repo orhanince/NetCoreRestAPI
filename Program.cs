@@ -16,7 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<NetCoreRestAPI.Data.MyAppContext>(options =>
-    options.UseSqlServer("Server=.\\SQLExpress2014;Database=NetCoreRestApi;Trusted_Connection=False;User ID=sa;Password=lila-123;Encrypt=False;MultipleActiveResultSets=true;"));
+    options.UseSqlServer("Server=127.0.0.1,1433;Database=NetCoreRestApi;User Id=SA;Password=YourPassword123; Encrypt=True; TrustServerCertificate=True"));
     //jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;
 
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
@@ -57,7 +57,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSettings["Issuer"],
         ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key ?? throw new ArgumentNullException(nameof(key))))
     };
 });
 var app = builder.Build();
@@ -96,14 +96,14 @@ app.MapGet("/", () =>
 
 using (IServiceScope scope = app.Services.CreateScope())
 {
-    MyAppContext context = scope.ServiceProvider.GetService<MyAppContext>();
+    MyAppContext context = scope.ServiceProvider.GetService<MyAppContext>()!;
     try
     {
         context.Database.Migrate();
     }
-    catch (Exception ex)
+    catch (Exception)
     {
-        throw ex;
+        throw;
     }
 }
 app.Run();

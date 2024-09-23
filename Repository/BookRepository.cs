@@ -46,9 +46,28 @@ namespace NetCoreRestAPI.Repository
 
     public async Task<BookDto> GetBookAsync(int bookID)
     {
-        var bookWithAuthors = await Task.Run(() => _context.Books.Where(x=> x.Id == bookID).Include(a => a.BookAuthors).ThenInclude(ba => ba.Author).FirstOrDefault());
+        var bookWithAuthors = await Task.Run(() => _context.Books.Where(x=> x.Id == bookID)
+        .Include(l => l.Language)
+        .Include(p => p.Publisher)
+        .Include(a => a.BookAuthors!)
+        .ThenInclude(ba => ba.Author)
+        .FirstOrDefault());
+
         var aa =  _iMapper.Map<BookDto>(bookWithAuthors);
         return aa;
     }
-    }   
+
+    public async Task<BookDto> UpdateBookAsync(int bookID, string title, int? authorID)
+    {
+        var book = await _context.Books.FirstOrDefaultAsync(u => u.Id == bookID);
+        if (book == null)
+        {
+            throw new ArgumentNullException(nameof(book));
+        }
+        book.Title = title;
+        book.Active = true;
+        await _context.SaveChangesAsync();
+        return _iMapper.Map<BookDto>(book);
+    }
+}   
 }

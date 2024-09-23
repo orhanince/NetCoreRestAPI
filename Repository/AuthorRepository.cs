@@ -47,7 +47,10 @@ namespace NetCoreRestAPI.Repository
 
         public async Task<AuthorDto> GetAuthorAsync(int authorID)
         {
-            var authorWithBooks = await Task.Run(() => _context.Authors.Include(a => a.BookAuthors).ThenInclude(ba => ba.Book).FirstOrDefault(a => a.Id == authorID));
+            var authorWithBooks = await _context.Authors
+                .Include(a => a.BookAuthors!)
+                .ThenInclude(ba => ba.Book)
+                .FirstOrDefaultAsync(a => a.Id == authorID);
             return _iMapper.Map<AuthorDto>(authorWithBooks);
         }
     }   
