@@ -1,13 +1,13 @@
 namespace NetCoreRestAPI.Models
 {
-    public class Publisher
+    public class Author
     {
         public int Id { get; set; }
         required
         public string Name { get; set; }
-        public string? Logo { get; set; }
-        public string? About { get; set; }
-        public ICollection<Book>? Books { get; set; } // Navigation property
+        required
+        public string Surname { get; set; }
+        public ICollection<BookAuthor>? BookAuthors { get; set; }
         public bool Active { get; set; } 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;

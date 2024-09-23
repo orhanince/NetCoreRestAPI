@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NetCoreRestAPI.Data;
 using NetCoreRestAPI.Middleware;
 using NetCoreRestAPI.Repository;
 using NetCoreRestAPI.Services;
@@ -19,7 +20,7 @@ builder.Services.AddDbContext<NetCoreRestAPI.Data.MyAppContext>(options =>
     //jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;
 
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
-builder.Services.AddControllers(); 
+builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); 
 // Register services
 builder.Services.AddScoped<IAuthService, AuthService>(); 
 builder.Services.AddScoped<IUserService, UserService>(); 
@@ -27,10 +28,16 @@ builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IEncryptService, EncryptService>();
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
+builder.Services.AddScoped<IPublisherService, PublisherService>();
+builder.Services.AddScoped<IAuthorService, AuthorService>();
+builder.Services.AddScoped<IBookService, BookService>();
 // Register Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
+builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 // Register JWT 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
@@ -50,7 +57,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSettings["Issuer"],
         ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key ?? throw new ArgumentNullException(nameof(key))))
     };
 });
 var app = builder.Build();
@@ -87,6 +94,18 @@ app.MapGet("/", () =>
 .WithName("GetWeatherForecast")
 .WithOpenApi();
 
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    MyAppContext context = scope.ServiceProvider.GetService<MyAppContext>()!;
+    try
+    {
+        context.Database.Migrate();
+    }
+    catch (Exception)
+    {
+        throw;
+    }
+}
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

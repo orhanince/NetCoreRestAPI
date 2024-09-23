@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetCoreRestAPI.Data;
 
@@ -11,9 +12,11 @@ using NetCoreRestAPI.Data;
 namespace NetCoreRestAPI.Migrations
 {
     [DbContext(typeof(MyAppContext))]
-    partial class MyAppContextModelSnapshot : ModelSnapshot
+    [Migration("20240923131644_AddDescriptandISBNNumber")]
+    partial class AddDescriptandISBNNumber
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,17 +81,11 @@ namespace NetCoreRestAPI.Migrations
                     b.Property<string>("ISBN")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("LanguageId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("NumberOfPages")
+                    b.Property<int?>("PublishedYear")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("PublishedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int?>("PublisherId")
                         .HasColumnType("int");
@@ -232,29 +229,6 @@ namespace NetCoreRestAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("NetCoreRestAPI.Models.UserBook", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserBooks");
-                });
-
             modelBuilder.Entity("NetCoreRestAPI.Models.UserProfile", b =>
                 {
                     b.Property<int>("Id")
@@ -326,25 +300,6 @@ namespace NetCoreRestAPI.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("NetCoreRestAPI.Models.UserBook", b =>
-                {
-                    b.HasOne("NetCoreRestAPI.Models.Book", "Book")
-                        .WithMany("UserBooks")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NetCoreRestAPI.Models.User", "User")
-                        .WithMany("UserBooks")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("NetCoreRestAPI.Models.UserProfile", b =>
                 {
                     b.HasOne("NetCoreRestAPI.Models.User", "User")
@@ -364,8 +319,6 @@ namespace NetCoreRestAPI.Migrations
             modelBuilder.Entity("NetCoreRestAPI.Models.Book", b =>
                 {
                     b.Navigation("BookAuthors");
-
-                    b.Navigation("UserBooks");
                 });
 
             modelBuilder.Entity("NetCoreRestAPI.Models.Language", b =>
@@ -380,8 +333,6 @@ namespace NetCoreRestAPI.Migrations
 
             modelBuilder.Entity("NetCoreRestAPI.Models.User", b =>
                 {
-                    b.Navigation("UserBooks");
-
                     b.Navigation("UserProfile");
                 });
 #pragma warning restore 612, 618

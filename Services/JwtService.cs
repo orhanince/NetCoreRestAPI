@@ -28,6 +28,10 @@ namespace NetCoreRestAPI.Services
                 new Claim(JwtRegisteredClaimNames.Sub, user.Username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
+            if (string.IsNullOrEmpty(jwtSettingsKey))
+            {
+                throw new ArgumentNullException(nameof(jwtSettingsKey), "JWT settings key cannot be null or empty.");
+            }
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettingsKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
