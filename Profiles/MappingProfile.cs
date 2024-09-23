@@ -14,7 +14,7 @@ public class MappingProfile : Profile
         CreateMap<PublisherDto, Publisher>();
         CreateMap<Author, AuthorDto>();
         CreateMap<AuthorDto, Author>();
-        CreateMap<Book, BookDto>().ForMember(dest => dest.Authors, opt => opt.MapFrom(src => 
+        CreateMap<Book, BookDto>().ForMember(dest => dest.authors, opt => opt.MapFrom(src => 
                 (src.BookAuthors ?? Enumerable.Empty<BookAuthor>()).Select(ba => new Author 
                 { 
                     Id = ba.Author.Id, 
