@@ -7,7 +7,7 @@ using NetCoreRestAPI.Services;
 namespace NetCoreRestAPI.Controllers
 {   
     [ApiController]
-    [Route("[controller]")]
+    [Route("app/[controller]")]
     public class BooksController : Controller
     {
         private readonly IBookService _iBookService;
@@ -26,7 +26,6 @@ namespace NetCoreRestAPI.Controllers
         public async Task<ActionResult<List<BookDto>>> GetBooks()
         {
             var books = await _iBookService.GetBooksAsync();
-            Console.WriteLine(books);
             return View("~/Views/Books/Index.cshtml", books);
         }
 
@@ -49,8 +48,9 @@ namespace NetCoreRestAPI.Controllers
         [ProducesResponseType(400)]
         public async Task<ActionResult<BookDto>> GetBook(int bookID)
         {
-            var aa =  await _iBookService.GetBookAsync(bookID);
-            return aa;
+            var book = await _iBookService.GetBookAsync(bookID);
+            Console.WriteLine(book);
+            return View("~/Views/Books/Detail.cshtml", book);
         }
 
         [HttpPost("{userID}/{bookID}")]

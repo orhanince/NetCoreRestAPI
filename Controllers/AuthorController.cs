@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NetCoreRestAPI.Dtos;
 using NetCoreRestAPI.Models;
 using NetCoreRestAPI.Services;
@@ -7,12 +8,12 @@ using NetCoreRestAPI.Services;
 namespace NetCoreRestAPI.Controllers
 {   
     [ApiController]
-    [Route("api/[controller]")]
-    public class AuthorController : ControllerBase
+    [Route("app/[controller]")]
+    public class AuthorsController : Controller
     {
         private readonly IAuthorService _iAuthorService;
 
-        public AuthorController(IAuthorService iAuthorService)
+        public AuthorsController(IAuthorService iAuthorService)
         {
             _iAuthorService = iAuthorService;
         }
@@ -25,7 +26,8 @@ namespace NetCoreRestAPI.Controllers
         [ProducesResponseType(400)]
         public async Task<ActionResult<List<AuthorDto>>> GetAuthors()
         {
-            return await _iAuthorService.GetAuthorsAsync();
+            var authors = await _iAuthorService.GetAuthorsAsync();
+            return View("~/Views/Authors/Index.cshtml", authors);
         }
 
         /// <summary>

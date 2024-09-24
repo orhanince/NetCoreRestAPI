@@ -6,14 +6,13 @@ using NetCoreRestAPI.Services;
 
 namespace NetCoreRestAPI.Controllers
 {   
-    [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
-    public class PublisherController : ControllerBase
+    [Route("app/[controller]")]
+    public class PublishersController : Controller
     {
         private readonly IPublisherService _iPublisherService;
 
-        public PublisherController(IPublisherService iPublisherService)
+        public PublishersController(IPublisherService iPublisherService)
         {
             _iPublisherService = iPublisherService;
         }
@@ -26,7 +25,9 @@ namespace NetCoreRestAPI.Controllers
         [ProducesResponseType(400)]
         public async Task<ActionResult<List<PublisherDto>>> GetPublisherList()
         {
-            return await _iPublisherService.GetPublisherListAsync();
+            var publishers = await _iPublisherService.GetPublisherListAsync();
+            Console.WriteLine(publishers);
+            return View("~/Views/Publishers/Index.cshtml", publishers);
         }
 
         /// <summary>
