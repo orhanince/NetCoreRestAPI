@@ -60,7 +60,9 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key ?? throw new ArgumentNullException(nameof(key))))
     };
 });
+
 var app = builder.Build();
+app.UseMiddleware<CheckJsonDataMiddleware>();  
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -72,7 +74,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication(); 
 app.UseAuthorization();
-app.UseMiddleware<CheckJsonDataMiddleware>();
+
 /**
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<CustomForbiddenMiddleware>();

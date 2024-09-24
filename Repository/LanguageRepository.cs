@@ -45,9 +45,9 @@ namespace NetCoreRestAPI.Repository
             return _iMapper.Map<LanguageDto>(language);
         }
 
-        public async Task<bool> LanguageExistsAsync(string languageID)
+        public async Task<bool> LanguageExistsAsync(int languageID)
         {
-            var language = await _context.Languages.FirstOrDefaultAsync(u => u.Key == languageID);
+            var language = await _context.Languages.FirstOrDefaultAsync(u => u.Id == languageID);
             if (language == null)
             {
                 return false;

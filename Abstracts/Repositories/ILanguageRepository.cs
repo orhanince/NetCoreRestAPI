@@ -7,6 +7,6 @@ namespace NetCoreRestAPI.Repository
     {
         Task <List<LanguageDto>> GetLanguagesAsync();
         Task <LanguageDto> AddLanguageAsync(string name);
-        Task<bool> LanguageExistsAsync(string languageID);
+        Task<bool> LanguageExistsAsync(int languageID);
     } 
 }

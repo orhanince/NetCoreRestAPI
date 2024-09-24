@@ -27,5 +27,10 @@ namespace NetCoreRestAPI.Services
         {
             return await _iAuthorRepository.GetAuthorAsync(authorID);
         }
+
+        public async Task<bool> AuthorExistsAsync(int authorID)
+        {
+            return await _iAuthorRepository.AuthorExistsAsync(authorID);
+        }
     }
 }

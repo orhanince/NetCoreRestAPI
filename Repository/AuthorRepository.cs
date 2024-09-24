@@ -47,5 +47,10 @@ namespace NetCoreRestAPI.Repository
                 .FirstOrDefaultAsync(a => a.Id == authorID);
             return _iMapper.Map<AuthorDto>(authorWithBooks);
         }
+
+        public async Task<bool> AuthorExistsAsync(int authorID)
+        {
+            return await _context.Authors.AnyAsync(a => a.Id == authorID);
+        }
     }   
 }
