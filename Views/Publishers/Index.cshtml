@@ -1,0 +1,23 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Publishers</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Bio</th>
+            <th>ProfilePicture</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var publisher in Model)
+        {
+            <tr><td>@publisher.Id</td></tr>
+            <tr><td>@publisher.Bio</td></tr>
+            <tr><td>@publisher.ProfilePicture</td></tr>
+        }
+    </tbody>
+</table>
+

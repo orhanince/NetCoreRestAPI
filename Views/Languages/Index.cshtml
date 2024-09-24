@@ -1,0 +1,25 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Languages</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Key</th>
+            <th>Name</th>
+            <th>Active</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var language in Model)
+        {
+            <tr><td>@language.Id</td></tr>
+            <tr><td>@language.Key</td></tr>
+            <tr><td>@language.Name</td></tr
+            <tr><td>@language.Active</td></tr>
+        }
+    </tbody>
+</table>
+

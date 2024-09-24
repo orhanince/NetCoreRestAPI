@@ -7,12 +7,12 @@ using NetCoreRestAPI.Services;
 namespace NetCoreRestAPI.Controllers
 {   
     [ApiController]
-    [Route("api/[controller]")]
-    public class LanguageController : ControllerBase
+    [Route("app/[controller]")]
+    public class LanguagesController : Controller
     {
         private readonly ILanguageService _iLanguageService;
 
-        public LanguageController(ILanguageService iLanguageService)
+        public LanguagesController(ILanguageService iLanguageService)
         {
             _iLanguageService = iLanguageService;
         }
@@ -25,7 +25,8 @@ namespace NetCoreRestAPI.Controllers
         [ProducesResponseType(400)]
         public async Task<ActionResult<List<LanguageDto>>> GetLanguages()
         {
-            return await _iLanguageService.GetLanguagesAsync();
+            var languages = await _iLanguageService.GetLanguagesAsync();
+            return View("~/Views/Languages/Index.cshtml", languages);
         }
 
         /// <summary>
