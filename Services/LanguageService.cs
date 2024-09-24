@@ -23,5 +23,10 @@ namespace NetCoreRestAPI.Services
             return await _iLanguageRepository.AddLanguageAsync(addLanguageDto.name);
         }
 
+        public async Task<bool> LanguageExistsAsync(string languageID)
+        {
+            return await _iLanguageRepository.LanguageExistsAsync(languageID);
+        }
+
     }
 }

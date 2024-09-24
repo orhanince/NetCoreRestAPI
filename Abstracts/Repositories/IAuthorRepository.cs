@@ -6,7 +6,7 @@ namespace NetCoreRestAPI.Repository
    public interface IAuthorRepository
     {
         Task <List<AuthorDto>> GetAuthorsAsync();
-        Task <AuthorDto> AddAuthorAsync(string name, string surname);
+        Task <AuthorDto> AddAuthorAsync(string name);
         Task <AuthorDto> GetAuthorAsync(int authorID);
     } 
 }

@@ -27,17 +27,11 @@ namespace NetCoreRestAPI.Repository
         return  _iMapper.Map<List<AuthorDto>>(authors);
     }
 
-    public async Task<AuthorDto> AddAuthorAsync(string name, string surname)
-    {
-        /**var existAuthor = await _context.Authors.FirstOrDefaultAsync(u => u.Name == SlugHelper.GenerateSlug(name));  
-        if (existAuthor != null)
-        {
-            throw new ArgumentNullException(nameof(existAuthor));
-        }*/
-        
+    public async Task<AuthorDto> AddAuthorAsync(string name)
+    {   
         var author = new Author {
             Name = name,
-            Surname = surname,
+            Slug = SlugHelper.GenerateSlug(name),
             Active = true
         };
         _context.Authors.Add(author);

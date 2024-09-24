@@ -23,5 +23,13 @@ namespace NetCoreRestAPI.Services
             return await _iPublisherRepository.AddPublisherAsync(addPublisherDto.name);
         }
 
+        public async Task<PublisherDto> GetPublisherAsync(GetPublisherDto getPublisherDto)
+        {
+            return await _iPublisherRepository.GetPublisherAsync(getPublisherDto.publisherID);
+        }
+        public async Task<bool> PublisherExistsAsync(int publisherID)
+        {
+            return await _iPublisherRepository.PublisherExistsAsync(publisherID);
+        }
     }
 }

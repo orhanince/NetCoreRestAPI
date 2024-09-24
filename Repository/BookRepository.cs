@@ -29,14 +29,9 @@ namespace NetCoreRestAPI.Repository
 
     public async Task<BookDto> AddBookAsync(string title, int? authorID)
     {
-        /**var existAuthor = await _context.Authors.FirstOrDefaultAsync(u => u.Name == SlugHelper.GenerateSlug(name));  
-        if (existAuthor != null)
-        {
-            throw new ArgumentNullException(nameof(existAuthor));
-        }*/
-        
         var book = new Book {
             Title = title,
+            Slug = SlugHelper.GenerateSlug(title),
             Active = true
         };
         _context.Books.Add(book);

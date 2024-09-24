@@ -72,6 +72,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication(); 
 app.UseAuthorization();
+app.UseMiddleware<CheckJsonDataMiddleware>();
 /**
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<CustomForbiddenMiddleware>();

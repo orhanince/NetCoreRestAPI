@@ -7,5 +7,7 @@ namespace NetCoreRestAPI.Repository
     {
         Task<List<PublisherDto>> GetPublisherListAsync();
         Task<PublisherDto> AddPublisherAsync(string name);
+        Task<PublisherDto> GetPublisherAsync(int publisherID);
+        Task<bool> PublisherExistsAsync(int publisherID);
     } 
 }

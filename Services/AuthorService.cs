@@ -20,7 +20,7 @@ namespace NetCoreRestAPI.Services
 
         public async Task<AuthorDto> AddAuthorAsync(AddAuthorDto addAuthorDto)
         {
-            return await _iAuthorRepository.AddAuthorAsync(addAuthorDto.name, addAuthorDto.surname);
+            return await _iAuthorRepository.AddAuthorAsync(addAuthorDto.name);
         }
 
         public async Task<AuthorDto> GetAuthorAsync(int authorID)
