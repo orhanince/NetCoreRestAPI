@@ -42,5 +42,10 @@ namespace NetCoreRestAPI.Services
         {
             return _iBookRepository.GetUserBooksAsync(userID);
         }
+
+        public Task<bool> BookExistsAsync(string title)
+        {
+            return _iBookRepository.BookExistsAsync(title);
+        }
     }
 }

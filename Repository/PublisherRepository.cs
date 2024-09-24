@@ -29,7 +29,7 @@ namespace NetCoreRestAPI.Repository
 
         public async Task<PublisherDto> AddPublisherAsync(string name)
         {
-            var existPublisher = await _context.Publishers.FirstOrDefaultAsync(u => u.Name == SlugHelper.GenerateSlug(name));  
+            var existPublisher = await _context.Publishers.FirstOrDefaultAsync(u => u.Name == SlugGenerator.GenerateSlug(name));  
             if (existPublisher != null)
             {
                 throw new ArgumentNullException(nameof(existPublisher));

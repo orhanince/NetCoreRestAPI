@@ -31,7 +31,7 @@ namespace NetCoreRestAPI.Repository
     {   
         var author = new Author {
             Name = name,
-            Slug = SlugHelper.GenerateSlug(name),
+            Slug = SlugGenerator.GenerateSlug(name),
             Active = true
         };
         _context.Authors.Add(author);

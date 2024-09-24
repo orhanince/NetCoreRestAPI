@@ -9,7 +9,6 @@ using NetCoreRestAPI.Dtos;
 using NetCoreRestAPI.Helpers;
 using NetCoreRestAPI.Models;
 using NetCoreRestAPI.Services;
-
 namespace NetCoreRestAPI.Repository
 {
     public class BookRepository : IBookRepository
@@ -31,7 +30,7 @@ namespace NetCoreRestAPI.Repository
     {
         var book = new Book {
             Title = title,
-            Slug = SlugHelper.GenerateSlug(title),
+            Slug = SlugGenerator.GenerateSlug(title),
             Active = true
         };
         _context.Books.Add(book);
@@ -102,5 +101,17 @@ namespace NetCoreRestAPI.Repository
         var books = userBooks.Select(x => x.Book).ToList();
         return  _iMapper.Map<List<BookDto>>(books);
     }
-  }  
+
+    public async Task<bool> BookExistsAsync(string title)
+    {
+
+        var book = await _context.Books.FirstOrDefaultAsync(u => u.Slug == SlugGenerator.GenerateSlug(title));
+        if (book == null)
+        {
+            return false;
+        }
+
+        return true;
+    } 
+ }
 }

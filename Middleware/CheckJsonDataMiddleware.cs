@@ -15,7 +15,7 @@ public class CheckJsonDataMiddleware
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext context, IPublisherService _publisherService, ILanguageService _languageService, IAuthorService _authorService)
+    public async Task InvokeAsync(HttpContext context, IBookService _bookService, IPublisherService _publisherService, ILanguageService _languageService, IAuthorService _authorService)
     {
         if (context.Request.Path.StartsWithSegments("/api/book") && context.Request.Method == HttpMethods.Post)
         {
@@ -27,10 +27,21 @@ public class CheckJsonDataMiddleware
                 context.Request.Body.Position = 0;
 
                 var jsonData = JsonSerializer.Deserialize<JsonElement>(body);
+                jsonData.TryGetProperty("title", out var titleElement);
                 jsonData.TryGetProperty("authorId", out var authorIdElement);
                 jsonData.TryGetProperty("publisherId", out var publisherIdElement); 
                 jsonData.TryGetProperty("languageId", out var languageIdElement);
-
+                if (titleElement.ValueKind == JsonValueKind.String)
+                {
+                    var title = titleElement.GetString();
+                    var bookExists = await _bookService.BookExistsAsync(!string.IsNullOrEmpty(title) ? title : "");
+                    if (bookExists)
+                    {
+                        context.Response.StatusCode = StatusCodes.Status409Conflict;
+                        await context.Response.WriteAsJsonAsync(new { message = $"Book already exists with given title {title}!" });
+                        return;
+                    } 
+                }
                 if (authorIdElement.ValueKind == JsonValueKind.Number)
                 {
                     var authorId = authorIdElement.GetInt32();

@@ -11,5 +11,6 @@ namespace NetCoreRestAPI.Services
         Task <BookDto> UpdateBookAsync(int bookID, UpdateBookDto updateBookDto);
         Task <UserDto> AddBookToUserAsync(int userID, int bookID);
         Task <List<BookDto>> GetUserBooksAsync(int userID);
+        Task <bool> BookExistsAsync(string title);
     }
 }

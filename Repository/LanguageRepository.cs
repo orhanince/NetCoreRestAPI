@@ -29,7 +29,7 @@ namespace NetCoreRestAPI.Repository
 
         public async Task<LanguageDto> AddLanguageAsync(string name)
         {
-            var existLang = await _context.Languages.FirstOrDefaultAsync(u => u.Key == SlugHelper.GenerateSlug(name));  
+            var existLang = await _context.Languages.FirstOrDefaultAsync(u => u.Key == SlugGenerator.GenerateSlug(name));  
             if (existLang != null)
             {
                 throw new ArgumentNullException(nameof(existLang));
@@ -37,7 +37,7 @@ namespace NetCoreRestAPI.Repository
             
             var language = new Language {
                 Name = name,
-                Key = SlugHelper.GenerateSlug(name),
+                Key = SlugGenerator.GenerateSlug(name),
                 Active = true
             };
             _context.Languages.Add(language);
