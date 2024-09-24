@@ -20,7 +20,7 @@ builder.Services.AddDbContext<NetCoreRestAPI.Data.MyAppContext>(options =>
     //jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;
 
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
-builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); 
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); 
 // Register services
 builder.Services.AddScoped<IAuthService, AuthService>(); 
 builder.Services.AddScoped<IUserService, UserService>(); 
@@ -60,7 +60,9 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key ?? throw new ArgumentNullException(nameof(key))))
     };
 });
+
 var app = builder.Build();
+app.UseMiddleware<CheckJsonDataMiddleware>();  
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -72,6 +74,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication(); 
 app.UseAuthorization();
+
 /**
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<CustomForbiddenMiddleware>();

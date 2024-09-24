@@ -6,7 +6,9 @@ namespace NetCoreRestAPI.Models
         required
         public string Name { get; set; }
         required
-        public string Surname { get; set; }
+        public string Slug { get; set; }
+        public string? Image { get; set; } = null;
+        public string? About { get; set; } = null;
         public ICollection<BookAuthor>? BookAuthors { get; set; }
         public bool Active { get; set; } 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

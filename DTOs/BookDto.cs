@@ -8,6 +8,7 @@ namespace NetCoreRestAPI.Models
         public string? language { get; set; }
         public string? publisher { get; set; }
         public string? isbn { get; set; }
+        public string? image { get; set; }
         public int? numberOfPages { get; set; }
         public string? description { get; set; }
         public int? publishedYear { get; set; }

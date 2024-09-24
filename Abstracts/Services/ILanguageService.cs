@@ -7,5 +7,6 @@ namespace NetCoreRestAPI.Services
     {
         Task<List<LanguageDto>> GetLanguagesAsync();
         Task<LanguageDto> AddLanguageAsync(AddLanguageDto addLanguageDto);
+        Task<bool> LanguageExistsAsync(int languageID); 
     }
 }

@@ -49,6 +49,20 @@ namespace NetCoreRestAPI.Controllers
         {
             return await _iAuthorService.GetAuthorAsync(authorID);
         }
+
+        /// <summary>
+        /// Update author.
+        /// </summary>
+        /// <param name="authorID"></param>
+        /// <param name="updateAuthorDto"></param>
+        /// <returns></returns>
+        [HttpPut("{authorID}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<AuthorDto>> UpdateAuthor(int authorID, AddAuthorDto addAuthorDto)
+        {
+            return await _iAuthorService.UpdateAuthorAsync(authorID, addAuthorDto);
+        }
     }
 }
 

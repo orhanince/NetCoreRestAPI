@@ -14,35 +14,45 @@ namespace NetCoreRestAPI.Repository
 {
     public class LanguageRepository : ILanguageRepository
 {
-    private readonly MyAppContext _context;
-    private readonly IMapper _iMapper;
-    public LanguageRepository(MyAppContext context, IMapper iMapper)
-    {
-        _context = context;
-        _iMapper = iMapper;
-    }
-    public async Task<List<LanguageDto>> GetLanguagesAsync()
-    {
-        var languages = await _context.Languages.ToListAsync();
-        return  _iMapper.Map<List<LanguageDto>>(languages);
-    }
-
-    public async Task<LanguageDto> AddLanguageAsync(string name)
-    {
-        var existLang = await _context.Languages.FirstOrDefaultAsync(u => u.Key == SlugHelper.GenerateSlug(name));  
-        if (existLang != null)
+        private readonly MyAppContext _context;
+        private readonly IMapper _iMapper;
+        public LanguageRepository(MyAppContext context, IMapper iMapper)
         {
-            throw new ArgumentNullException(nameof(existLang));
+            _context = context;
+            _iMapper = iMapper;
         }
-        
-        var language = new Language {
-            Name = name,
-            Key = SlugHelper.GenerateSlug(name),
-            Active = true
-        };
-        _context.Languages.Add(language);
-        await _context.SaveChangesAsync();
-        return _iMapper.Map<LanguageDto>(language);
+        public async Task<List<LanguageDto>> GetLanguagesAsync()
+        {
+            var languages = await _context.Languages.ToListAsync();
+            return  _iMapper.Map<List<LanguageDto>>(languages);
+        }
+
+        public async Task<LanguageDto> AddLanguageAsync(string name)
+        {
+            var existLang = await _context.Languages.FirstOrDefaultAsync(u => u.Key == SlugGenerator.GenerateSlug(name));  
+            if (existLang != null)
+            {
+                throw new ArgumentNullException(nameof(existLang));
+            }
+            
+            var language = new Language {
+                Name = name,
+                Key = SlugGenerator.GenerateSlug(name),
+                Active = true
+            };
+            _context.Languages.Add(language);
+            await _context.SaveChangesAsync();
+            return _iMapper.Map<LanguageDto>(language);
+        }
+
+        public async Task<bool> LanguageExistsAsync(int languageID)
+        {
+            var language = await _context.Languages.FirstOrDefaultAsync(u => u.Id == languageID);
+            if (language == null)
+            {
+                return false;
+            }
+            return true;
+        }   
     }
-    }   
 }
