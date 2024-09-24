@@ -26,7 +26,11 @@ namespace NetCoreRestAPI.Repository
     }
     public async Task<List<BookDto>> GetBooksAsync()
     {
-        var books = await _context.Books.ToListAsync();
+        var books = await Task.Run(() => _context.Books.Include(l => l.Language)
+        .Include(p => p.Publisher)
+        .Include(a => a.BookAuthors!)
+        .ThenInclude(ba => ba.Author)
+        .ToList());
         return  _iMapper.Map<List<BookDto>>(books);
     }
 

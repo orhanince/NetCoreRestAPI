@@ -20,7 +20,7 @@ builder.Services.AddDbContext<NetCoreRestAPI.Data.MyAppContext>(options =>
     //jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;
 
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
-builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); 
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); 
 // Register services
 builder.Services.AddScoped<IAuthService, AuthService>(); 
 builder.Services.AddScoped<IUserService, UserService>(); 
