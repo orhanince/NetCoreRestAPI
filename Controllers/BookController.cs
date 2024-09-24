@@ -51,26 +51,6 @@ namespace NetCoreRestAPI.Controllers
             return aa;
         }
 
-        /// <summary>
-        /// Update book.
-        /// </summary>
-        /// <param name="bookID"></param>
-        /// <param name="updateBookDto"></param>
-        /// <returns></returns>
-        /// <response code="200">Returns the updated book.</response>
-        /// <response code="400">If the book is not found.</response>
-        /// <response code="404">If the book is not found.</response>
-        /// <response code="500">If there was an internal server error.</response>
-        /// <response code="401">If the user is not authenticated.</response>
-        /// <response code="403">If the user is not authorized.</response>
-        [HttpPut("{bookID}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public async Task<ActionResult<BookDto>> UpdateBook(int bookID, UpdateBookDto updateBookDto)
-        {
-            return await _iBookService.UpdateBookAsync(bookID, updateBookDto);
-        }
-
         [HttpPost("{userID}/{bookID}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
@@ -85,6 +65,20 @@ namespace NetCoreRestAPI.Controllers
         public async Task<ActionResult<List<BookDto>>> GetUserBooks(int userID)
         {
             return await _iBookService.GetUserBooksAsync(userID);
+        }
+
+        /// <summary>
+        /// Update book.
+        /// </summary>
+        /// <param name="bookID"></param>
+        /// <param name="updateBookDto"></param>
+        /// <returns></returns>
+        [HttpPut("{bookID}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<BookDto>> UpdateBook(int bookID, AddBookDto addBookDto)
+        {
+            return await _iBookService.UpdateBookAsync(bookID, addBookDto);
         }
     }
 }

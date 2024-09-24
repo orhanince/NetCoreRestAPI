@@ -5,6 +5,9 @@ namespace NetCoreRestAPI.Models
 
         required
         public string name { get; set; }
+        public string? image { get; set; }
+        public string? about { get; set; }
+
     }
 }
 

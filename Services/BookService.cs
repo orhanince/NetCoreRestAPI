@@ -20,7 +20,7 @@ namespace NetCoreRestAPI.Services
 
         public Task<BookDto> AddBookAsync(AddBookDto addBookDto)
         {
-            return _iBookRepository.AddBookAsync(addBookDto.title, addBookDto.authorID);
+            return _iBookRepository.AddBookAsync(addBookDto.title, addBookDto.authorId);
         }
 
         public Task<BookDto> GetBookAsync(int bookID)
@@ -28,9 +28,9 @@ namespace NetCoreRestAPI.Services
             return _iBookRepository.GetBookAsync(bookID);
         }
 
-        public Task<BookDto> UpdateBookAsync(int bookID, UpdateBookDto updateBookDto)
+        public Task<BookDto> UpdateBookAsync(int bookID, AddBookDto addBookDto)
         {
-            return _iBookRepository.UpdateBookAsync(bookID, updateBookDto.title, updateBookDto.authorID);
+            return _iBookRepository.UpdateBookAsync(bookID, addBookDto.title, addBookDto.active, addBookDto.image, addBookDto.isbn, addBookDto.description, addBookDto.authorId, addBookDto.languageId, addBookDto.publisherId, addBookDto.publishedDate);
         }
 
         public Task<UserDto> AddBookToUserAsync(int userID, int bookID)

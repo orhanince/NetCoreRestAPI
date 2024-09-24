@@ -27,11 +27,13 @@ namespace NetCoreRestAPI.Repository
         return  _iMapper.Map<List<AuthorDto>>(authors);
     }
 
-    public async Task<AuthorDto> AddAuthorAsync(string name)
+    public async Task<AuthorDto> AddAuthorAsync(string name, string? image, string? about)
     {   
         var author = new Author {
             Name = name,
             Slug = SlugGenerator.GenerateSlug(name),
+            Image = image,
+            About = about,
             Active = true
         };
         _context.Authors.Add(author);
@@ -51,6 +53,22 @@ namespace NetCoreRestAPI.Repository
         public async Task<bool> AuthorExistsAsync(int authorID)
         {
             return await _context.Authors.AnyAsync(a => a.Id == authorID);
+        }
+
+        public async Task<AuthorDto> UpdateAuthorAsync(int authorID, string name, string? image, string? about)    
+        {
+            var author = await _context.Authors.FirstOrDefaultAsync(a => a.Id == authorID);
+            if (author == null)
+            {
+               throw new ArgumentNullException(nameof(author));
+            }
+            author.Name = name;
+            author.Slug = SlugGenerator.GenerateSlug(name);
+            author.Image = image;
+            author.About = about;
+            author.UpdatedAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+            return _iMapper.Map<AuthorDto>(author);
         }
     }   
 }

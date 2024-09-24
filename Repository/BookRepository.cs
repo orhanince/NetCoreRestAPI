@@ -1,4 +1,5 @@
 
+using System.Globalization;
 using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +16,13 @@ namespace NetCoreRestAPI.Repository
 {
     private readonly MyAppContext _context;
     private readonly IMapper _iMapper;
-    public BookRepository(MyAppContext context, IMapper iMapper)
+
+    private readonly IAuthorRepository _iAuthorRepository;
+    public BookRepository(MyAppContext context, IMapper iMapper, IAuthorRepository iAuthorRepository)
     {
         _context = context;
         _iMapper = iMapper;
+        _iAuthorRepository = iAuthorRepository;
     }
     public async Task<List<BookDto>> GetBooksAsync()
     {
@@ -51,15 +55,53 @@ namespace NetCoreRestAPI.Repository
         return aa;
     }
 
-    public async Task<BookDto> UpdateBookAsync(int bookID, string title, int? authorID)
+    public async Task<BookDto> UpdateBookAsync(int bookId, string title, bool active, string? image, string? isbn, string? description, int? authorId, int? languageId, int? publisherId, string? publishedDate)
     {
-        var book = await _context.Books.FirstOrDefaultAsync(u => u.Id == bookID);
+        var book = await Task.Run(() => _context.Books.Where(x=> x.Id == bookId)
+        .Include(l => l.Language)
+        .Include(p => p.Publisher)
+        .Include(a => a.BookAuthors!)
+        .ThenInclude(ba => ba.Author)
+        .FirstOrDefault());
+
         if (book == null)
         {
             throw new ArgumentNullException(nameof(book));
         }
+         DateTime? dateTimePublished = null;
+        if (!string.IsNullOrEmpty(publishedDate))
+        {
+        dateTimePublished = DateTime.ParseExact(publishedDate, "dd.MM.yyyy", CultureInfo.InvariantCulture).ToUniversalTime();
+        }
         book.Title = title;
-        book.Active = true;
+        book.ISBN = isbn;
+        book.Description = description;
+        book.PublishedDate = dateTimePublished;
+        book.LanguageId = languageId;
+        book.PublisherId = publisherId;
+        book.Active = active;
+        book.Slug = SlugGenerator.GenerateSlug(title);
+        book.Image = image;
+
+        if (authorId != null)
+        {
+            var bookAuthor = _context.BookAuthors.FirstOrDefault(ba => ba.BookId == bookId && ba.AuthorId == authorId);
+            if (bookAuthor == null)
+            {
+                var author = await _iAuthorRepository.GetAuthorAsync(authorId.Value);
+                if (author == null)
+                {
+                    throw new ArgumentNullException(nameof(author));
+                }
+                var newBookAuthor = new BookAuthor
+                {
+                    Book = book,
+                    Author = _iMapper.Map<Author>(author)
+                };
+                _context.BookAuthors.Add(newBookAuthor);
+            }
+        }
+         _context.Books.Update(book);
         await _context.SaveChangesAsync();
         return _iMapper.Map<BookDto>(book);
     }
@@ -112,6 +154,6 @@ namespace NetCoreRestAPI.Repository
         }
 
         return true;
-    } 
- }
+    }
+    }
 }
