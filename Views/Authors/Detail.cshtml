@@ -1,0 +1,32 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Book</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Published Date</th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr>
+                <td>@Model.id</td>
+                <td>@Model.title</td>
+                @foreach (var author in Model.authors)
+                {
+                    <td>@author.Name</td>
+                }
+                <td>@Model.isbn</td>
+                <td>@Model.description</td>
+                <td>@Model.image</td>
+                <td>@Model.numberOfPages</td>
+                <td>@Model.language</td>
+                <td>@Model.publisher</td>
+            </tr>
+        
+    </tbody>
+</table>
